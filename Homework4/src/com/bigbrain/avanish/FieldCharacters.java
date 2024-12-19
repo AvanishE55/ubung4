@@ -1,15 +1,21 @@
 package com.bigbrain.avanish;
 
-public enum FieldCharacters {
-    ;
+/**
+ * The allowed characters on the map.
+ *
+ * @author ufkzh
+ */
+public final class FieldCharacters {
+    static final char SPACE = ' ';
+    static final char ROBOT = 'R';
+    static final char GOAL = 'x';
+    static final char OBS1 = '*';
+    static final char OBS2 = '_';
+    static final char OBS3 = '\\';
+    static final char OBS4 = '/';
+    static final char OBS5 = '|';
+    static final char DOT = '.';
 
-    public static final char SPACE = ' ';
-    public static final char ROBOT = 'R';
-    public static final char GOAL = 'x';
-    public static final char OBS1 = '*';
-    public static final char OBS2 = '_';
-    public static final char OBS3 = '\\';
-    public static final char OBS4 = '/';
-    public static final char OBS5 = '|';
-    public static final char DOT = '.';
+    private FieldCharacters() {
+    }
 }

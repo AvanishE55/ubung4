@@ -1,7 +1,6 @@
 package com.bigbrain.avanish;
 
-import java.util.Deque;
-import java.util.List;
+import java.util.ArrayDeque;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -16,15 +15,23 @@ import static com.bigbrain.avanish.CMD.NEW;
 import static com.bigbrain.avanish.CMD.QUIT;
 
 
+/**
+ * Class with main method that runs the program.
+ * @author ufkzh
+ */
 public final class CommunicationProtocol {
     private static Field field;
     private static Scanner scanner;
     private static FieldGraph fieldGraph;
-    private static Deque<String> pathStack;
+    private static ArrayDeque<String> pathStack;
 
     private CommunicationProtocol() {
     }
 
+    /**
+     * The damn main method?
+     * @param args
+     */
     public static void main(String[] args) {
 
         scanner = new Scanner(System.in);
@@ -36,6 +43,10 @@ public final class CommunicationProtocol {
         }
     }
 
+    /**
+     * Method with performs the inputted command/ calls the relevant method.
+     * @param currentCommand
+     */
     public static void performCommand(String[] currentCommand) {
         try {
             switch (currentCommand[0]) {
@@ -73,7 +84,6 @@ public final class CommunicationProtocol {
 
         } catch (Exception e) {
             System.out.println(CMD.ERROR_MESSAGE + ": False command");
-            System.out.println(e);
         }
 
     }

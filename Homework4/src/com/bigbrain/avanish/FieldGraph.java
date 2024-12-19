@@ -1,13 +1,16 @@
 package com.bigbrain.avanish;
 
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 
-import java.lang.reflect.Array;
-import java.util.*;
-
-import static com.bigbrain.avanish.CMD.DOWN;
-import static com.bigbrain.avanish.CMD.RIGHT;
-import static com.bigbrain.avanish.CMD.LEFT;
+import static com.bigbrain.avanish.CMD.PATH_0;
+import static com.bigbrain.avanish.CMD.FAIL;
 import static com.bigbrain.avanish.CMD.UP;
+import static com.bigbrain.avanish.CMD.DOWN;
+import static com.bigbrain.avanish.CMD.LEFT;
+import static com.bigbrain.avanish.CMD.RIGHT;
 import static com.bigbrain.avanish.FieldCharacters.SPACE;
 
 /**
@@ -17,13 +20,62 @@ import static com.bigbrain.avanish.FieldCharacters.SPACE;
  */
 public class FieldGraph {
 
-    private static final String PATH_0 = "PATH 0";
-    private static final String FAIL = "FAIL";
     private Node[][] myGraph;
 
 
     FieldGraph(Field field) {
         initFieldGraph(field);
+    }
+
+
+    /**
+     * Prints path determined by BFS.
+     *
+     * @param goalX X coordinate of goal
+     * @param goalY Y coordinate of goal
+     * @return returns the current path as an ArrayDeque
+     */
+    public ArrayDeque<String> printPath(int goalX, int goalY) {
+        ArrayDeque<String> pathStack = new ArrayDeque<>();
+
+        Node node = this.myGraph[goalY][goalX];
+
+        //check if robot position is goal
+        if (node.isGoal() && node.isRobot()) {
+            System.out.print(PATH_0);
+            return null;
+        }
+
+        //check if no path
+        if (node.getParent() == null) {
+            System.out.print(FAIL);
+            return null;
+        }
+
+        while (node.getParent() != null) {
+            pathStack.push(node.getParentDirection());
+            node = node.getParent();
+        }
+
+        int count = 0;
+        String temp = "";
+
+        for (String s : pathStack) {
+            if (Objects.equals(s, temp)) {
+                count++;
+            } else {
+                if (count > 0) {
+                    System.out.println(temp + " " + count);
+                }
+                temp = s;
+                count = 1;
+            }
+        }
+        if (count > 0) {
+            System.out.println(temp + " " + count);
+        }
+
+        return pathStack;
     }
 
     private void initFieldGraph(Field field) {
@@ -106,55 +158,6 @@ public class FieldGraph {
             }
         }
         System.out.println("Path Calculated");
-    }
-
-    /**
-     * Prints path determined by BFS.
-     *
-     * @param goalX X coordinate of goal
-     * @param goalY Y coordinate of goal
-     */
-    public Deque<String> printPath(int goalX, int goalY) {
-        Deque<String> pathStack = new ArrayDeque<>();
-
-        Node node = this.myGraph[goalY][goalX];
-
-        //check if robot position is goal
-        if (node.isGoal() && node.isRobot()) {
-            System.out.print(PATH_0);
-            return null;
-        }
-
-        //check if no path
-        if (node.getParent() == null) {
-            System.out.print(FAIL);
-            return null;
-        }
-
-        while (node.getParent() != null) {
-            pathStack.push(node.getParentDirection());
-            node = node.getParent();
-        }
-
-        int count = 0;
-        String temp = "";
-
-        for (String s : pathStack) {
-            if (Objects.equals(s, temp)) {
-                count++;
-            } else {
-                if (count > 0) {
-                    System.out.println(temp + " " + count);
-                }
-                temp = s;
-                count = 1;
-            }
-        }
-        if (count > 0) {
-            System.out.println(temp + " " + count);
-        }
-
-        return pathStack;
     }
 }
 
