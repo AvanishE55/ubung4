@@ -1,5 +1,6 @@
 package com.bigbrain.avanish;
 
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayDeque;
 import java.util.Objects;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ import static com.bigbrain.avanish.CMD.DEBUG_PATH;
 import static com.bigbrain.avanish.CMD.PATH;
 import static com.bigbrain.avanish.CMD.NEW;
 import static com.bigbrain.avanish.CMD.QUIT;
+import static com.bigbrain.avanish.CMD.ERROR_MESSAGE;
 
 
 /**
@@ -55,11 +57,17 @@ public final class CommunicationProtocol {
                     break;
 
                 case DEBUG:
+                    if (field == null) {
+                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
+                    }
                     field.printField();
                     break;
 
                 case PATH:
-                    System.out.println("Calculating Path");
+                    if (field == null) {
+                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
+                    }
+                    //System.out.println("Calculating Path");
                     fieldGraph = new FieldGraph(field);
                     fieldGraph.breadthFirstSearch(field.getRobotX(), field.getRobotY());
 
@@ -67,23 +75,33 @@ public final class CommunicationProtocol {
                     break;
 
                 case DEBUG_PATH:
-                    System.out.println("Debugging Path");
+                    if (field == null) {
+                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
+                    }
+                    //System.out.println("Debugging Path");
                     field.debugPath(path);
                     break;
 
                 case UP, DOWN, LEFT, RIGHT://moving - up/down/left/right
+                    //sheet said: Die Übertragung ist bei dieser kurzen Nachricht immer fehlerfrei
+                    if (field == null) {
+                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
+                    }
                     //distance defaults to 1 if no input
-                    int distance = Integer.parseInt((currentCommand.length == 1) ? "1" : currentCommand[1]);
-                    System.out.println("Moving " + currentCommand[0] + " by " + distance + " spaces");
+                    int distance;
+                    distance = Integer.parseInt((currentCommand.length == 1) ? "1" : currentCommand[1]);
+                    //System.out.println("Moving " + currentCommand[0] + " by " + distance + " spaces");
                     field.move(currentCommand[0], distance);
+
                     break;
 
                 default:
-                    System.out.println(CMD.ERROR_MESSAGE + ": False command");
+                    System.out.println(CMD.ERROR_MESSAGE);
+                    break;
             }
 
-        } catch (Exception e) {
-            System.out.println(CMD.ERROR_MESSAGE + ": False command");
+        } catch (IllegalCharsetNameException e) {
+            System.out.println(ERROR_MESSAGE);
         }
 
     }

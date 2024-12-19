@@ -1,5 +1,6 @@
 package com.bigbrain.avanish;
 
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
@@ -7,6 +8,7 @@ import static com.bigbrain.avanish.CMD.DOWN;
 import static com.bigbrain.avanish.CMD.RIGHT;
 import static com.bigbrain.avanish.CMD.LEFT;
 import static com.bigbrain.avanish.CMD.UP;
+import static com.bigbrain.avanish.CMD.ERROR_MESSAGE;
 import static com.bigbrain.avanish.FieldCharacters.ROBOT;
 import static com.bigbrain.avanish.FieldCharacters.SPACE;
 import static com.bigbrain.avanish.FieldCharacters.OBS1;
@@ -39,23 +41,29 @@ public class Field {
      * @param widthString  input string for field width
      * @param heightString input string for field height
      * @param scanner      scanner to get next line input
+     * @throws IllegalCharsetNameException illegal charset
      */
     public Field(String widthString, String heightString, Scanner scanner) {
         width = Integer.parseInt(widthString);
         height = Integer.parseInt(heightString);
-        System.out.println("Making new field of size " + width + " by " + height);
+        //System.out.println("Making new field of size " + width + " by " + height);
         myField = new char[height][width];
         try {
             receiveField(scanner);
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (IllegalCharsetNameException e) {
             System.out.println(CMD.ERROR_MESSAGE);
+        }
+
+
+        //return true if not robot init or not goal init
+        if (!isRobotInit || !isGoalInit) {
+            throw new IllegalCharsetNameException(ERROR_MESSAGE);
         }
 
     }
 
 
-    void receiveField(Scanner scanner) throws Exception {
+    void receiveField(Scanner scanner) throws IllegalCharsetNameException {
         String input;
         char[] inputArr;
 
@@ -83,16 +91,11 @@ public class Field {
                         break;
 
                     default:
-                        throw new Exception(CMD.ERROR_MESSAGE + "Unrecognised Character in map");
+                        throw new IllegalCharsetNameException(CMD.ERROR_MESSAGE);
+
                 }
             }
         }
-
-        if (!isRobotInit || !isGoalInit) {
-            throw new Exception("Not init");
-        }
-
-
     }
 
     /**
@@ -172,10 +175,14 @@ public class Field {
         for (int i = 0; i < height; i++) {
             tempField[i] = myField[i].clone();
         }
+        if (path == null) {
+            printField();
+            return;
+        }
 
         //cloning pathStack so that it is not changed if debug-path is called multiple times
         ArrayDeque<String> tempPathStack = path.clone();
-        //removing last move - goal is replaced by .
+        //removing last move - otherwise goal is replaced by .
         tempPathStack.removeLast();
 
         for (String s : tempPathStack) {
@@ -264,7 +271,10 @@ public class Field {
         return goalY;
     }
 
-    void printField() {
+    /**
+     * Prints the currently saved field.
+     */
+    public void printField() {
         for (char[] ca : myField) {
             System.out.println(String.valueOf(ca));
         }

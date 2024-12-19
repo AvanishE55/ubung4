@@ -40,13 +40,13 @@ public class FieldGraph {
 
         //check if robot position is goal
         if (node.isGoal() && node.isRobot()) {
-            System.out.print(PATH_0);
+            System.out.println(PATH_0);
             return null;
         }
 
         //check if no path
         if (node.getParent() == null) {
-            System.out.print(FAIL);
+            System.out.println(FAIL);
             return null;
         }
 
@@ -132,7 +132,7 @@ public class FieldGraph {
      * @param robotY Y coordinate of robot position
      */
     public void breadthFirstSearch(int robotX, int robotY) {
-        Queue<Node> queue = new LinkedList<Node>();
+        Queue<Node> queue = new LinkedList<>();
 
         //set root (robot) as explored and add to queue
         this.myGraph[robotY][robotX].setExplored(true);
