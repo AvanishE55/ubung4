@@ -48,12 +48,8 @@ public class Field {
         height = Integer.parseInt(heightString);
         //System.out.println("Making new field of size " + width + " by " + height);
         myField = new char[height][width];
-        try {
-            receiveField(scanner);
-        } catch (IllegalCharsetNameException e) {
-            System.out.println(CMD.ERROR_MESSAGE);
-        }
 
+        receiveField(scanner);
 
         //return true if not robot init or not goal init
         if (!isRobotInit || !isGoalInit) {
@@ -70,6 +66,9 @@ public class Field {
         for (int i = 0; i < height; i++) {
             input = scanner.nextLine();
             inputArr = input.toCharArray();
+            if (input.length() != width) {
+                throw new IllegalCharsetNameException(ERROR_MESSAGE);
+            }
             for (int j = 0; j < width; j++) {
                 switch (inputArr[j]) {
                     case SPACE, OBS1, OBS2, OBS3, OBS4, OBS5:
@@ -91,11 +90,13 @@ public class Field {
                         break;
 
                     default:
-                        throw new IllegalCharsetNameException(CMD.ERROR_MESSAGE);
+                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
 
                 }
             }
         }
+
+        //hope I don't have to implement receiving more lines of terrain after first error without giving error messages.....
     }
 
     /**

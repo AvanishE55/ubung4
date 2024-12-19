@@ -50,6 +50,11 @@ public final class CommunicationProtocol {
      * @param currentCommand current inputted command
      */
     public static void performCommand(String[] currentCommand) {
+        if (currentCommand.length < 1) {
+            System.out.println(ERROR_MESSAGE);
+            return;
+        }
+
         try {
             switch (currentCommand[0]) {
                 case NEW:
@@ -88,11 +93,9 @@ public final class CommunicationProtocol {
                         throw new IllegalCharsetNameException(ERROR_MESSAGE);
                     }
                     //distance defaults to 1 if no input
-                    int distance;
-                    distance = Integer.parseInt((currentCommand.length == 1) ? "1" : currentCommand[1]);
+                    int distance = Integer.parseInt((currentCommand.length == 1) ? "1" : currentCommand[1]);
                     //System.out.println("Moving " + currentCommand[0] + " by " + distance + " spaces");
                     field.move(currentCommand[0], distance);
-
                     break;
 
                 default:
