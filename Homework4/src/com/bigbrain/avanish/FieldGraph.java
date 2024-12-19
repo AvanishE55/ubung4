@@ -15,7 +15,6 @@ import static com.bigbrain.avanish.FieldCharacters.SPACE;
 
 /**
  * FieldGraph Class which contains methods to convert the char array Field to a Node array and to populate it.
- *
  * @author ufkzh
  */
 public class FieldGraph {
@@ -30,13 +29,12 @@ public class FieldGraph {
 
     /**
      * Prints path determined by BFS.
-     *
      * @param goalX X coordinate of goal
      * @param goalY Y coordinate of goal
      * @return returns the current path as an ArrayDeque
      */
     public ArrayDeque<String> printPath(int goalX, int goalY) {
-        ArrayDeque<String> pathStack = new ArrayDeque<>();
+        ArrayDeque<String> path = new ArrayDeque<>();
 
         Node node = this.myGraph[goalY][goalX];
 
@@ -53,14 +51,14 @@ public class FieldGraph {
         }
 
         while (node.getParent() != null) {
-            pathStack.push(node.getParentDirection());
+            path.push(node.getParentDirection());
             node = node.getParent();
         }
 
         int count = 0;
         String temp = "";
 
-        for (String s : pathStack) {
+        for (String s : path) {
             if (Objects.equals(s, temp)) {
                 count++;
             } else {
@@ -75,7 +73,7 @@ public class FieldGraph {
             System.out.println(temp + " " + count);
         }
 
-        return pathStack;
+        return path;
     }
 
     private void initFieldGraph(Field field) {
@@ -130,7 +128,6 @@ public class FieldGraph {
 
     /**
      * Searches for a path using breitensuche.
-     *
      * @param robotX X coordinate of robot position
      * @param robotY Y coordinate of robot position
      */

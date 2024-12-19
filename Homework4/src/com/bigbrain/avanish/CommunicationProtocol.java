@@ -23,14 +23,14 @@ public final class CommunicationProtocol {
     private static Field field;
     private static Scanner scanner;
     private static FieldGraph fieldGraph;
-    private static ArrayDeque<String> pathStack;
+    private static ArrayDeque<String> path;
 
     private CommunicationProtocol() {
     }
 
     /**
      * The damn main method?
-     * @param args
+     * @param args nothing?
      */
     public static void main(String[] args) {
 
@@ -45,7 +45,7 @@ public final class CommunicationProtocol {
 
     /**
      * Method with performs the inputted command/ calls the relevant method.
-     * @param currentCommand
+     * @param currentCommand current inputted command
      */
     public static void performCommand(String[] currentCommand) {
         try {
@@ -63,12 +63,12 @@ public final class CommunicationProtocol {
                     fieldGraph = new FieldGraph(field);
                     fieldGraph.breadthFirstSearch(field.getRobotX(), field.getRobotY());
 
-                    pathStack = fieldGraph.printPath(field.getGoalX(), field.getGoalY());
+                    path = fieldGraph.printPath(field.getGoalX(), field.getGoalY());
                     break;
 
                 case DEBUG_PATH:
                     System.out.println("Debugging Path");
-                    field.debugPath(pathStack);
+                    field.debugPath(path);
                     break;
 
                 case UP, DOWN, LEFT, RIGHT://moving - up/down/left/right
