@@ -1,6 +1,8 @@
 package com.bigbrain.avanish;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
@@ -35,6 +37,7 @@ public class FieldGraph {
      */
     public ArrayDeque<String> printPath(int goalX, int goalY) {
         ArrayDeque<String> path = new ArrayDeque<>();
+        List<String> pathOutput = new ArrayList<>();
 
         Node node = this.myGraph[goalY][goalX];
 
@@ -63,14 +66,20 @@ public class FieldGraph {
                 count++;
             } else {
                 if (count > 0) {
-                    System.out.println(temp + " " + count);
+                    pathOutput.add(temp + " " + count);
+                    //System.out.println(temp + " " + count);
                 }
                 temp = s;
                 count = 1;
             }
         }
         if (count > 0) {
-            System.out.println(temp + " " + count);
+            pathOutput.add(temp + " " + count);
+            //System.out.println(temp + " " + count);
+        }
+        System.out.println("PATH " + pathOutput.size());
+        for (String s : pathOutput) {
+            System.out.println(s);
         }
 
         return path;
