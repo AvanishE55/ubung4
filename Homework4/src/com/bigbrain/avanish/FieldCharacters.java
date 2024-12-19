@@ -11,4 +11,5 @@ public enum FieldCharacters {
     public static final char OBS3 = '\\';
     public static final char OBS4 = '/';
     public static final char OBS5 = '|';
+    public static final char DOT = '.';
 }

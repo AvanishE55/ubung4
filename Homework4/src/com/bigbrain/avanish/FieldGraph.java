@@ -122,11 +122,13 @@ public class FieldGraph {
         //check if robot position is goal
         if (node.isGoal() && node.isRobot()) {
             System.out.print(PATH_0);
+            return null;
         }
 
         //check if no path
         if (node.getParent() == null) {
             System.out.print(FAIL);
+            return null;
         }
 
         while (node.getParent() != null) {

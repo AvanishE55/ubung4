@@ -127,7 +127,7 @@ public class Field {
         switch (s) {
             case UP:
                 for (int i = 0; i < dist; i++) {
-                    if (myField[robotY - 1][robotX] == SPACE) {
+                    if (myField[robotY - 1][robotX] == SPACE || myField[robotY-1][robotX] == GOAL) {
                         myField[robotY][robotX] = SPACE;
                         robotY--;
                         myField[robotY][robotX] = ROBOT;
@@ -139,7 +139,7 @@ public class Field {
 
             case DOWN:
                 for (int i = 0; i < dist; i++) {
-                    if (myField[robotY + 1][robotX] == SPACE) {
+                    if (myField[robotY + 1][robotX] == SPACE || myField[robotY + 1][robotX] == GOAL) {
                         myField[robotY][robotX] = SPACE;
                         robotY++;
                         myField[robotY][robotX] = ROBOT;
@@ -151,7 +151,7 @@ public class Field {
 
             case LEFT:
                 for (int i = 0; i < dist; i++) {
-                    if (myField[robotY][robotX - 1] == SPACE) {
+                    if (myField[robotY][robotX - 1] == SPACE || myField[robotY][robotX - 1] == GOAL) {
                         myField[robotY][robotX] = SPACE;
                         robotX--;
                         myField[robotY][robotX] = ROBOT;
@@ -163,7 +163,7 @@ public class Field {
 
             case RIGHT:
                 for (int i = 0; i < dist; i++) {
-                    if (myField[robotY][robotX + 1] == SPACE) {
+                    if (myField[robotY][robotX + 1] == SPACE || myField[robotY][robotX + 1] == GOAL) {
                         myField[robotY][robotX] = SPACE;
                         robotX++;
                         myField[robotY][robotX] = ROBOT;
@@ -176,6 +176,10 @@ public class Field {
 
             default:
                 break;
+        }
+        //check if goal is not occupied by robot and reset the x
+        if(!(robotY == goalY && robotX == goalX)){
+            myField[goalY][goalX] = GOAL;
         }
     }
 
