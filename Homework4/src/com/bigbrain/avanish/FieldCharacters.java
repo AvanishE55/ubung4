@@ -2,8 +2,7 @@ package com.bigbrain.avanish;
 
 /**
  * The allowed characters on the map.
- *
- * @author ufkzh
+ * @author uswup
  */
 public final class FieldCharacters {
     static final char SPACE = ' ';

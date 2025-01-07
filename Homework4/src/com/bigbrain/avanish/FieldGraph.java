@@ -17,7 +17,7 @@ import static com.bigbrain.avanish.FieldCharacters.SPACE;
 
 /**
  * FieldGraph Class which contains methods to convert the char array Field to a Node array and to populate it.
- * @author ufkzh
+ * @author uswup
  */
 public class FieldGraph {
 

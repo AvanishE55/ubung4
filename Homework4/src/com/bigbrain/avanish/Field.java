@@ -20,7 +20,7 @@ import static com.bigbrain.avanish.FieldCharacters.DOT;
 
 /**
  * Field Class.
- * @author ufkzh
+ * @author uswup
  */
 public class Field {
     //X = j - coordinate starts from top left and is positive towards right - second index

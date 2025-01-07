@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Field Class.
- * @author ufkzh
+ * @author uswup
  */
 public class Node {
     private HashMap<String, Node> edges = new HashMap<>(4);

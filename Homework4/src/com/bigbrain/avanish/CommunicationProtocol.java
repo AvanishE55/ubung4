@@ -18,7 +18,7 @@ import static com.bigbrain.avanish.CMD.ERROR_MESSAGE;
 
 /**
  * Class with main method that runs the program.
- * @author ufkzh
+ * @author uswup
  */
 public final class CommunicationProtocol {
     private static Field field;

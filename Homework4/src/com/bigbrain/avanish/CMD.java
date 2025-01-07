@@ -2,7 +2,7 @@ package com.bigbrain.avanish;
 
 /**
  * Allowed commands to be inputted as well as the error messages.
- * @author ufkzh
+ * @author uswup
  */
 public final class CMD {
     static final String ERROR_MESSAGE = "ERROR";
