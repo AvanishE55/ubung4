@@ -49,7 +49,7 @@ public final class CommunicationProtocol {
      * @param currentCommand current inputted command
      */
     public static void performCommand(String[] currentCommand) {
-        if (currentCommand.length < 1) {
+        if (currentCommand.length < 1 || currentCommand.length > 3) {
             System.out.println(ERROR_MESSAGE);
             return;
         }
@@ -69,7 +69,7 @@ public final class CommunicationProtocol {
                 break;
 
             case DEBUG:
-                if (!field.isInit()) {
+                if (field == null || !field.isInit()) {
                     System.out.println(CMD.ERROR_MESSAGE);
                     return;
                 }
@@ -77,7 +77,7 @@ public final class CommunicationProtocol {
                 break;
 
             case PATH:
-                if (!field.isInit()) {
+                if (field == null || !field.isInit()) {
                     System.out.println(CMD.ERROR_MESSAGE);
                     return;
                 }
@@ -88,7 +88,7 @@ public final class CommunicationProtocol {
                 break;
 
             case DEBUG_PATH:
-                if (!field.isInit()) {
+                if (field == null || !field.isInit()) {
                     System.out.println(CMD.ERROR_MESSAGE);
                     return;
                 }
@@ -96,7 +96,7 @@ public final class CommunicationProtocol {
                 break;
 
             case UP, DOWN, LEFT, RIGHT://moving - up/down/left/right
-                if (!field.isInit()) {
+                if (field == null || !field.isInit()) {
                     System.out.println(CMD.ERROR_MESSAGE);
                     return;
                 }
