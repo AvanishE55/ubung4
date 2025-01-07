@@ -1,6 +1,5 @@
 package com.bigbrain.avanish;
 
-import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayDeque;
 import java.util.Objects;
 import java.util.Scanner;
@@ -54,58 +53,59 @@ public final class CommunicationProtocol {
             System.out.println(ERROR_MESSAGE);
             return;
         }
-
-        try {
-            switch (currentCommand[0]) {
-                case NEW:
-                    field = new Field(currentCommand[1], currentCommand[2], scanner);
-                    break;
-
-                case DEBUG:
-                    if (field == null) {
-                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
-                    }
-                    field.printField();
-                    break;
-
-                case PATH:
-                    if (field == null) {
-                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
-                    }
-                    //System.out.println("Calculating Path");
-                    fieldGraph = new FieldGraph(field);
-                    fieldGraph.breadthFirstSearch(field.getRobotX(), field.getRobotY());
-
-                    path = fieldGraph.printPath(field.getGoalX(), field.getGoalY());
-                    break;
-
-                case DEBUG_PATH:
-                    if (field == null) {
-                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
-                    }
-                    //System.out.println("Debugging Path");
-                    field.debugPath(path);
-                    break;
-
-                case UP, DOWN, LEFT, RIGHT://moving - up/down/left/right
-                    //sheet said: Die Übertragung ist bei dieser kurzen Nachricht immer fehlerfrei
-                    if (field == null) {
-                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
-                    }
-                    //distance defaults to 1 if no input
-                    int distance = Integer.parseInt((currentCommand.length == 1) ? "1" : currentCommand[1]);
-                    //System.out.println("Moving " + currentCommand[0] + " by " + distance + " spaces");
-                    field.move(currentCommand[0], distance);
-                    break;
-
-                default:
+        switch (currentCommand[0]) {
+            case NEW:
+                int width = Integer.parseInt(currentCommand[1]);
+                int height = Integer.parseInt(currentCommand[2]);
+                if (width < 1 || height < 1) {
                     System.out.println(CMD.ERROR_MESSAGE);
-                    break;
-            }
+                    return;
+                }
+                field = new Field(width, height);
+                if (!field.receiveField(scanner)) {
+                    System.out.println(CMD.ERROR_MESSAGE);
+                    return;
+                }
+                break;
 
-        } catch (IllegalCharsetNameException e) {
-            System.out.println(ERROR_MESSAGE);
+            case DEBUG:
+                if (!field.isInit()) {
+                    System.out.println(CMD.ERROR_MESSAGE);
+                    return;
+                }
+                field.printField();
+                break;
+
+            case PATH:
+                if (!field.isInit()) {
+                    System.out.println(CMD.ERROR_MESSAGE);
+                    return;
+                }
+                fieldGraph = new FieldGraph(field);
+                fieldGraph.breadthFirstSearch(field.getRobotX(), field.getRobotY());
+
+                path = fieldGraph.printPath(field.getGoalX(), field.getGoalY());
+                break;
+
+            case DEBUG_PATH:
+                if (!field.isInit()) {
+                    System.out.println(CMD.ERROR_MESSAGE);
+                    return;
+                }
+                field.debugPath(path);
+                break;
+
+            case UP, DOWN, LEFT, RIGHT://moving - up/down/left/right
+                if (!field.isInit()) {
+                    System.out.println(CMD.ERROR_MESSAGE);
+                    return;
+                }
+                int distance = Integer.parseInt((currentCommand.length == 1) ? "1" : currentCommand[1]);
+                field.move(currentCommand[0], distance);
+                break;
+
+            default:
+                System.out.println(CMD.ERROR_MESSAGE);
         }
-
     }
 }

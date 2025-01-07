@@ -1,6 +1,5 @@
 package com.bigbrain.avanish;
 
-import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
@@ -8,7 +7,6 @@ import static com.bigbrain.avanish.CMD.DOWN;
 import static com.bigbrain.avanish.CMD.RIGHT;
 import static com.bigbrain.avanish.CMD.LEFT;
 import static com.bigbrain.avanish.CMD.UP;
-import static com.bigbrain.avanish.CMD.ERROR_MESSAGE;
 import static com.bigbrain.avanish.FieldCharacters.ROBOT;
 import static com.bigbrain.avanish.FieldCharacters.SPACE;
 import static com.bigbrain.avanish.FieldCharacters.OBS1;
@@ -38,36 +36,28 @@ public class Field {
 
     /**
      * Field class which contains the field of characters and methods to manipulate this field.
-     * @param widthString  input string for field width
-     * @param heightString input string for field height
-     * @param scanner      scanner to get next line input
-     * @throws IllegalCharsetNameException illegal charset
+     * @param width  field width
+     * @param height field height
      */
-    public Field(String widthString, String heightString, Scanner scanner) {
-        width = Integer.parseInt(widthString);
-        height = Integer.parseInt(heightString);
+    public Field(int width, int height) {
+        this.width = width;
+        this.height = height;
         //System.out.println("Making new field of size " + width + " by " + height);
         myField = new char[height][width];
-
-        receiveField(scanner);
-
-        //return true if not robot init or not goal init
-        if (!isRobotInit || !isGoalInit) {
-            throw new IllegalCharsetNameException(ERROR_MESSAGE);
-        }
 
     }
 
 
-    void receiveField(Scanner scanner) throws IllegalCharsetNameException {
+    boolean receiveField(Scanner scanner) {
         String input;
         char[] inputArr;
+        boolean falseChar = false;
 
         for (int i = 0; i < height; i++) {
             input = scanner.nextLine();
             inputArr = input.toCharArray();
             if (input.length() != width) {
-                throw new IllegalCharsetNameException(ERROR_MESSAGE);
+                return false;
             }
             for (int j = 0; j < width; j++) {
                 switch (inputArr[j]) {
@@ -90,12 +80,17 @@ public class Field {
                         break;
 
                     default:
-                        throw new IllegalCharsetNameException(ERROR_MESSAGE);
-
+                        falseChar = true;
+                        return false;
                 }
+            }
+
+            if (falseChar) {
+                return false;
             }
         }
 
+        return isRobotInit || isGoalInit;
         //hope I don't have to implement receiving more lines of terrain after first error without giving error messages.....
     }
 
@@ -279,6 +274,14 @@ public class Field {
         for (char[] ca : myField) {
             System.out.println(String.valueOf(ca));
         }
+    }
+
+    /**
+     * Returns true if the field has been initialised correctly - robot and goal.
+     * @return boolean
+     */
+    public boolean isInit() {
+        return isRobotInit || isGoalInit;
     }
 }
 
