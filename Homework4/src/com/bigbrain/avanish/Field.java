@@ -3,7 +3,11 @@ package com.bigbrain.avanish;
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
-import static com.bigbrain.avanish.CMD.*;
+import static com.bigbrain.avanish.CMD.LEFT;
+import static com.bigbrain.avanish.CMD.RIGHT;
+import static com.bigbrain.avanish.CMD.DOWN;
+import static com.bigbrain.avanish.CMD.UP;
+import static com.bigbrain.avanish.CMD.FAIL;
 import static com.bigbrain.avanish.FieldCharacters.ROBOT;
 import static com.bigbrain.avanish.FieldCharacters.SPACE;
 import static com.bigbrain.avanish.FieldCharacters.OBS1;
