@@ -163,7 +163,7 @@ public class FieldGraph {
                 break;
             }
         }
-        System.out.println("Path Calculated");
+//        System.out.println("Path Calculated");
     }
 }
 
